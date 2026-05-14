@@ -309,16 +309,61 @@
                 </div>
               </div>
 
-              <div id="view-participants" class="mx-auto hidden max-w-6xl pb-8">
+              <div id="view-participants" class="mx-auto hidden max-w-[1600px] pb-8">
                 <div class="mb-6">
                   <p class="text-xs font-medium uppercase tracking-wider text-rh-red">참가자 현황</p>
-                  <h1 class="mt-1 text-xl font-bold text-white sm:text-2xl">관심 리드 TOP 50</h1>
-                  <p class="mt-2 max-w-2xl text-sm text-neutral-400">
-                    부스 스캔·세션 출석·앱 관심 태그를 기반으로 한 AI 리드 점수입니다. (데모 데이터)
+                  <h1 class="mt-1 text-xl font-bold text-white sm:text-2xl">등록·참석 및 산업 구성</h1>
+                  <p class="mt-2 max-w-3xl text-sm text-neutral-400">
+                    사전 등록 대비 현장 체크인 참석률, 현장 등록 규모, 주요 5개 인더스트리 비중입니다. (데모 수치)
                   </p>
                 </div>
+
+                <div class="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                  <div class="rounded-xl border border-rh-border bg-rh-card p-4">
+                    <p class="text-xs font-medium text-neutral-500">사전 등록</p>
+                    <p class="mt-1 text-2xl font-bold tabular-nums text-white sm:text-3xl">5,420</p>
+                    <p class="mt-1 text-[11px] text-neutral-500">행사 전 온라인 등록 완료</p>
+                  </div>
+                  <div class="rounded-xl border border-rh-border bg-rh-card p-4 sm:col-span-2">
+                    <p class="text-xs font-medium text-neutral-500">사전 등록 대비 참석률</p>
+                    <div class="mt-1 flex flex-wrap items-baseline gap-2">
+                      <p class="text-2xl font-bold tabular-nums text-emerald-400 sm:text-3xl">85.0%</p>
+                      <span class="text-sm text-neutral-400"
+                        ><span class="tabular-nums text-white">4,605</span> / 5,420명 참석</span
+                      >
+                    </div>
+                    <div class="mt-3 h-2 overflow-hidden rounded-full bg-neutral-800">
+                      <div class="h-full w-[85%] rounded-full bg-gradient-to-r from-emerald-600 to-emerald-400"></div>
+                    </div>
+                    <p class="mt-2 text-[11px] text-neutral-500">
+                      사전 등록자 중 현장 체크인 완료 기준 (노쇼·미체크인 제외)
+                    </p>
+                  </div>
+                  <div class="rounded-xl border border-rh-border bg-rh-card p-4">
+                    <p class="text-xs font-medium text-neutral-500">현장 등록</p>
+                    <p class="mt-1 text-2xl font-bold tabular-nums text-white sm:text-3xl">287</p>
+                    <p class="mt-1 text-[11px] text-neutral-500">
+                      당일 게이트 등록 · 전체 체크인
+                      <span class="tabular-nums text-neutral-300">4,892</span>명 중
+                      <span class="text-rh-red">5.9%</span>
+                    </p>
+                  </div>
+                </div>
+
+                <div class="mb-8 rounded-xl border border-rh-border bg-rh-card p-4 sm:p-5">
+                  <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                    <h2 class="text-sm font-semibold text-white">주요 인더스트리 비중 (체크인 기준)</h2>
+                    <p class="text-[11px] text-neutral-500">금융 · 공공 · 제조 · 통신/미디어 · IT/서비스</p>
+                  </div>
+                  <div id="industry-bars-root" class="mt-5 space-y-4"></div>
+                </div>
+
+                <div class="mb-4">
+                  <h2 class="text-sm font-semibold text-white">관심 리드 TOP 50</h2>
+                  <p class="mt-1 text-xs text-neutral-500">부스·세션·앱 시그널 기반 AI 리드 점수 (데모)</p>
+                </div>
                 <div class="overflow-hidden rounded-xl border border-rh-border bg-rh-card">
-                  <div class="max-h-[min(70vh,720px)] overflow-auto">
+                  <div class="max-h-[min(55vh,560px)] overflow-auto sm:max-h-[min(60vh,620px)]">
                     <table class="w-full min-w-[520px] text-left text-xs sm:text-sm">
                       <thead class="sticky top-0 z-10 border-b border-rh-border bg-rh-card/95 backdrop-blur">
                         <tr class="text-neutral-500">
@@ -810,6 +855,37 @@
               "병렬 트랙 B (데모 구역)",
               seoul2025Agenda.trackB
             );
+        }
+
+        var industryBarsRoot = document.getElementById("industry-bars-root");
+        if (industryBarsRoot) {
+          var sectors = [
+            { name: "금융 서비스", pct: 28, color: "#EE0000" },
+            { name: "공공 부문", pct: 22, color: "#f97316" },
+            { name: "제조 · 산업", pct: 20, color: "#eab308" },
+            { name: "통신 · 미디어", pct: 14, color: "#22c55e" },
+            { name: "IT · 서비스", pct: 16, color: "#3b82f6" },
+          ];
+          var indHtml = "";
+          var si;
+          for (si = 0; si < sectors.length; si++) {
+            var sec = sectors[si];
+            indHtml +=
+              "<div>" +
+              '<div class="flex items-center justify-between gap-2 text-xs">' +
+              '<span class="font-medium text-neutral-200">' +
+              sec.name +
+              '</span><span class="tabular-nums text-neutral-400">' +
+              sec.pct +
+              "%</span></div>" +
+              '<div class="mt-1.5 h-2.5 overflow-hidden rounded-full bg-neutral-800">' +
+              '<div class="h-full rounded-full" style="width:' +
+              sec.pct +
+              "%;background-color:" +
+              sec.color +
+              '"></div></div></div>';
+          }
+          industryBarsRoot.innerHTML = indHtml;
         }
 
         if (leadBody) {
